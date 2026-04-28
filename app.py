@@ -15,12 +15,12 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 
-# -------------------------------
+
 # LOAD MODELS
-# -------------------------------
+
 @st.cache_resource
 def load_cnn():
-    return tf.keras.models.load_model("heart_ecg_cnn.h5")
+    return tf.keras.models.load_model("heart_ecg_cnn1.h5")
 
 
 cnn_model = load_cnn()
@@ -58,9 +58,8 @@ CP_LABELS = {
 }
 
 
-# -------------------------------
 # GEMINI
-# -------------------------------
+
 def _gemini_api_key() -> str | None:
     key = os.environ.get("GEMINI_API_KEY", "").strip()
     if key:
@@ -118,9 +117,8 @@ def get_ai_suggestion(input_type, data, result):
         return f"AI service error: {e!s}"
 
 
-# -------------------------------
 # CLINICAL HELPERS
-# -------------------------------
+
 def clinical_risk_percent_and_tier(input_scaled) -> tuple[float, str]:
     """Returns risk score 0–100 (P(class 1)) and tier string."""
     try:
@@ -233,9 +231,8 @@ def generate_report_pdf(
     return buffer.getvalue()
 
 
-# -------------------------------
 # STYLING
-# -------------------------------
+
 def inject_clinical_style():
     st.markdown(
         """
@@ -277,9 +274,8 @@ def risk_badge_html(tier: str) -> str:
     return f'<span class="risk-badge {cls}">{tier} risk</span>'
 
 
-# -------------------------------
 # PAGE
-# -------------------------------
+
 st.set_page_config(
     page_title="Cardio Risk Assistant",
     page_icon="🫀",
@@ -311,9 +307,8 @@ if "ecg_label" not in st.session_state:
 t_clinical, t_ecg = st.tabs(["Clinical Risk", "ECG Analysis"])
 
 
-# =====================================================
 # CLINICAL
-# =====================================================
+
 with t_clinical:
     st.caption("10-year–style model scores are not guaranteed. Outputs reflect training data limits and are not a substitute for examination.")
 
@@ -436,9 +431,8 @@ with t_clinical:
         )
 
 
-# =====================================================
 # ECG
-# =====================================================
+
 with t_ecg:
     st.caption("ECG classifiers are data-dependent; confidence is from the CNN softmax, not clinical certainty.")
 
