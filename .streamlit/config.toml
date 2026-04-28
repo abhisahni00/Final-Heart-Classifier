@@ -1,0 +1,8 @@
+# Light theme so body text is dark and readable (matches app CSS).
+[theme]
+base = "light"
+primaryColor = "#0d9488"
+backgroundColor = "#f4f7fb"
+secondaryBackgroundColor = "#ffffff"
+textColor = "#0f172a"
+font = "sans serif"
